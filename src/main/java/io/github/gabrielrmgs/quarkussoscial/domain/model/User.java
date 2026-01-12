@@ -1,4 +1,4 @@
-package io.github.gabrielrmgs.quarkussoscial.model;
+package io.github.gabrielrmgs.quarkussoscial.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,11 +8,9 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-
 @Entity
 @Table(name = "usuarios")
-public class User extends PanacheEntityBase{
+public class User{
 
     @Id
     @GeneratedValue(generator = "user_seq_gen", strategy = GenerationType.IDENTITY)
@@ -88,10 +86,10 @@ public class User extends PanacheEntityBase{
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", name='" + getName() + "'" +
-            ", age='" + getAge() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", name='" + getName() + "'" +
+                ", age='" + getAge() + "'" +
+                "}";
     }
-    
+
 }

@@ -1,53 +1,50 @@
 package io.github.gabrielrmgs.quarkussoscial.rest.dto;
 
-public class ErrorResponse {
-    private String errorMessage;
-    private Integer status;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-    public ErrorResponse() {
+import jakarta.validation.ConstraintViolation;
+
+public class ErrorResponse {
+
+    private String errorMessage;
+    private Collection<FieldError> errors;
+
+    public ErrorResponse(String errorMessage, Collection<FieldError> errors) {
+        this.errorMessage = errorMessage;
+        this.errors = errors;
     }
 
-    public ErrorResponse(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public static <T> ErrorResponse createFromValidation(Set<ConstraintViolation<T>> violations) {
+
+        List<FieldError> errors = violations.stream()
+                .map(vc -> new FieldError(vc.getPropertyPath().toString(), vc.getMessage()))
+                .collect(Collectors.toList());
+
+        String message = "Violation Error";
+
+        ErrorResponse errorResponse = new ErrorResponse(message, errors);
+
+        return errorResponse;
+
     }
 
     public String getErrorMessage() {
         return this.errorMessage;
     }
 
-    public ErrorResponse(String errorMessage, Integer status) {
-        this.errorMessage = errorMessage;
-        this.status = status;
-    }
-
-    public Integer getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public ErrorResponse status(Integer status) {
-        setStatus(status);
-        return this;
-    }
-
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
-    public ErrorResponse errorMessage(String errorMessage) {
-        setErrorMessage(errorMessage);
-        return this;
+    public Collection<FieldError> getErrors() {
+        return this.errors;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-            " errorMessage='" + getErrorMessage() + "'" +
-            "}";
+    public void setErrors(Collection<FieldError> errors) {
+        this.errors = errors;
     }
- 
 
 }

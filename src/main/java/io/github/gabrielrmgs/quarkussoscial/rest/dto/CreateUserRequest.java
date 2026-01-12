@@ -1,5 +1,9 @@
 package io.github.gabrielrmgs.quarkussoscial.rest.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record CreateUserRequest(
-        String name, Integer age) {
+                @NotBlank(message = "Name is Required") String name,
+                @NotNull(message = "Age is Required") Integer age) {
 }
